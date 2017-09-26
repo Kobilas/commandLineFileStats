@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
             default: //xFlag set to false, string printed
                      //then the loops break and return main
                 xFlag = true;
-                cout << argv[j] << " UNRECOGNIZED FLAG";
+                cout << argv[j] << " UNRECOGNIZED FLAG" << endl;
                 break;
             }
         }
@@ -84,11 +84,12 @@ int main(int argc, char *argv[])
             {
                 while (getline(inFile, sLine))
                 {
+                    longestWord = 0;
                     if (sLine == "")
                     {
                         continue;
                     }
-                    length = inFile.gcount();
+                    length = sLine.length();
                     line.str(sLine);
                     if (length > longestLine)
                     {
@@ -101,15 +102,18 @@ int main(int argc, char *argv[])
                     }
                     while (line >> word)
                     {
-                        while (word == "")
+                        if (bFlag)
                         {
-                            subLength++;
+                            while (word == "")
+                            {
+                                    subLength++;
+                            }
                         }
                         if ((word.length()) == (unsigned)longestWord)
                         {
                             wordCount[word]++;
                         }
-                        else if ((word.length()) > (unsigned)longestWord)
+                        else if (word.length() > (unsigned)longestWord)
                         {
                             wordCount.erase(wordCount.begin(), wordCount.end());
                             wordCount[word]++;
@@ -127,6 +131,7 @@ int main(int argc, char *argv[])
             else
             {
                 cout << argv[i] << " FILE NOT FOUND" << endl;
+                continue;
             }
         }
         else
@@ -136,6 +141,7 @@ int main(int argc, char *argv[])
         cout << argv[i] << ":" << endl;
         if (mFlag)
         {
+            byCount.erase(byCount.begin(), byCount.end());
             map<string, int>::iterator cit;
             for (cit = wordCount.begin(); cit != wordCount.end(); cit++)
             {
@@ -179,15 +185,24 @@ int main(int argc, char *argv[])
                 }
                 q++;
                 qit++;
-                cout << endl;
             }
         }
         else
         {
             map<string, int>::iterator it;
+            q = 0;
+            size = wordCount.size();
             for (it = wordCount.begin(); it != wordCount.end(); it++)
             {//sorted and comma-separated longest words
-                cout << it->first << ", ";
+                if (q < size-1)
+                {
+                    cout << it->first << ", ";
+                }
+                else
+                {
+                    cout << it->first;
+                }
+
             }
         }
         cout << endl;
