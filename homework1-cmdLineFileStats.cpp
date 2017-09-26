@@ -150,7 +150,7 @@ int main(int argc, char *argv[])
             //trims the vector at that key location
             byCount[numLongestWord].shrink_to_fit();
             //sorts the vector at that key location
-            sort(&byCount[numLongestWord], byCount[numLongestWord].size());
+            sort(byCount[numLongestWord].begin(), byCount[numLongestWord].end());
             vector<string>::iterator qit = byCount[numLongestWord].begin();
             size = byCount[numLongestWord].size();
             q = 0;
