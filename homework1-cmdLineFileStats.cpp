@@ -26,6 +26,7 @@ int main(int argc, char *argv[])
 	int numFiles = 0;
 	int numLongestWord = 0;
 	int length = 0;
+    int subLength = 0;
 	bool mFlag = false;
 	bool cFlag = false; //initialization of the
 	bool bFlag = false; //possible flags
@@ -102,9 +103,9 @@ int main(int argc, char *argv[])
 					}
 					while (line >> word)
 					{
-                        if(word == "")
+                        while(word = "")
                         {
-                            continue;
+                            subLength++;
                         }
 						if ((word.length()) == (unsigned)longestWord)
 						{
@@ -118,6 +119,11 @@ int main(int argc, char *argv[])
 						}
 
 					}
+                    if(bFlag)
+                    {
+                        subLength--;
+                        longestLine -= subLength;
+                    }
 				}
 				inFile.close();
 			}
