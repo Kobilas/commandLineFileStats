@@ -4,10 +4,9 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
-
-void bubbleSort(vector<string>, int);
 
 int main(int argc, char *argv[])
 {
@@ -151,7 +150,7 @@ int main(int argc, char *argv[])
             //trims the vector at that key location
             byCount[numLongestWord].shrink_to_fit();
             //sorts the vector at that key location
-            bubbleSort(&byCount[numLongestWord], byCount[numLongestWord].size());
+            sort(&byCount[numLongestWord], byCount[numLongestWord].size());
             vector<string>::iterator qit = byCount[numLongestWord].begin();
             size = byCount[numLongestWord].size();
             q = 0;
@@ -198,25 +197,5 @@ int main(int argc, char *argv[])
             cout << " (" << numLongestLines << ")";
         }
         cout << endl;
-    }
-}
-void bubbleSort(vector<string> &toSort, int size)
-{
-    int z;
-    int newZ;
-    string mid;
-    for(z = size; z != 0; n = newZ)
-    {
-        for(int y = 1; y < z;)
-        {
-            if(toSort[y-1] > toSort[y])
-            {
-                mid = toSort[y-1];
-                toSort[y-1] = toSort[y];
-                toSort[y] = mid;
-                newZ = y;
-            }
-        }
-        z = newZ;
     }
 }
