@@ -12,10 +12,9 @@ using namespace std;
 int main(int argc, char *argv[])
 {
     ifstream inFile;
-    istringstream line;
     map<string, int> wordCount;
     map<int, vector<string>> byCount;
-    char word[256];
+    string word = "";
     string sLine = "";
     int longestLine = 0;
     int longestWord = 0;
@@ -86,12 +85,13 @@ int main(int argc, char *argv[])
                 longestWord = 0;
                 while (getline(inFile, sLine))
                 { //changes sLine
-                    if (sLine == "")
-                    {
-                        continue;
-                    }
+                    //if (sLine == "")
+                    //{
+                    //    cerr << "woops";
+                    //    continue;
+                    //}
                     length = sLine.length();
-                    line.str(sLine);
+                    istringstream line(sLine);
                     if (length > longestLine)
                     {
                         longestLine = length;
@@ -101,26 +101,26 @@ int main(int argc, char *argv[])
                     {
                         numLongestLines++;
                     }
-                    while (line.get(word, 256, ' '))
-                    { //I fucking HATE you ozymandias
-                      //go suck a FUCKING chode
-                      //fucking asshole
+                    while (line >> word)
+                    { //tried using get() with a char[] but didnt work
+                      //line >> word doesn't work either
                         if (bFlag)
                         {
-                            while (strlen(word) == 0)
-                            {
-                                    subLength++;
-                            }
+                            //while (word.length() == 0)
+                            //{
+                            //    cerr << "woops part 2?";
+                            //        subLength++;
+                            //}
                         }
-                        if (strlen(word) == (unsigned)longestWord)
+                        if (word.length() == (unsigned)longestWord)
                         {
                             wordCount[word]++;
                         }
-                        if ((unsigned)longestWord < strlen(word))
+                        if ((unsigned)longestWord < word.length())
                         {
                             wordCount.erase(wordCount.begin(), wordCount.end());
-                            wordCount[word]++;
-                            longestWord = strlen(word);
+                            wordCount[word] = 1;
+                            longestWord = word.length();
                         }
                     }
                     if (bFlag)
@@ -163,7 +163,8 @@ int main(int argc, char *argv[])
             vector<string>::iterator qit = byCount[numLongestWord].begin();
             size = byCount[numLongestWord].size();
             q = 0;
-            while (qit != byCount[numLongestWord].end()) {
+            while (qit != byCount[numLongestWord].end())
+            {
                 if (q < size - 1)
                 {
                     if (cFlag)
@@ -197,15 +198,29 @@ int main(int argc, char *argv[])
             size = wordCount.size();
             for (it = wordCount.begin(); it != wordCount.end(); it++)
             {//sorted and comma-separated longest words
-                if (q < size-1)
+                if (q < size - 1)
                 {
+                    if(cFlag)
+                    {
+                        cout << it->first << " (" << wordCount[it->first] << "), ";
+                    }
+                    else
+                    {
                     cout << it->first << ", ";
+                    }
                 }
                 else
                 {
-                    cout << it->first;
+                    if(cFlag)
+                    {
+                        cout << it->first << " (" << wordCount[it->first] << ")";
+                    }
+                    else
+                    {
+                        cout << it->first;
+                    }
                 }
-
+                q++;
             }
         }
         cout << endl;
