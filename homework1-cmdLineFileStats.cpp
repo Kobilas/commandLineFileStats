@@ -5,6 +5,7 @@
 #include <map>
 #include <vector>
 #include <algorithm>
+#include <cstring>
 
 using namespace std;
 
@@ -14,7 +15,7 @@ int main(int argc, char *argv[])
     istringstream line;
     map<string, int> wordCount;
     map<int, vector<string>> byCount;
-    string word = "";
+    char word[256];
     string sLine = "";
     int longestLine = 0;
     int longestWord = 0;
@@ -82,9 +83,9 @@ int main(int argc, char *argv[])
             inFile.open(argv[i]);
             if (inFile.is_open())
             {
+                longestWord = 0;
                 while (getline(inFile, sLine))
-                {
-                    longestWord = 0;
+                { //changes sLine
                     if (sLine == "")
                     {
                         continue;
@@ -100,24 +101,26 @@ int main(int argc, char *argv[])
                     {
                         numLongestLines++;
                     }
-                    while (line >> word)
-                    {
+                    while (line.get(word, 256, ' '))
+                    { //I fucking HATE you ozymandias
+                      //go suck a FUCKING chode
+                      //fucking asshole
                         if (bFlag)
                         {
-                            while (word == "")
+                            while (strlen(word) == 0)
                             {
                                     subLength++;
                             }
                         }
-                        if ((word.length()) == (unsigned)longestWord)
+                        if (strlen(word) == (unsigned)longestWord)
                         {
                             wordCount[word]++;
                         }
-                        else if (word.length() > (unsigned)longestWord)
+                        if ((unsigned)longestWord < strlen(word))
                         {
                             wordCount.erase(wordCount.begin(), wordCount.end());
                             wordCount[word]++;
-                            longestWord = word.length();
+                            longestWord = strlen(word);
                         }
                     }
                     if (bFlag)
