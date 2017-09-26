@@ -7,6 +7,11 @@
 
 using namespace std;
 
+void bubbleSort(vector<string>)
+{
+    
+}
+
 int main(int argc, char *argv[])
 {
 	ifstream inFile;
@@ -80,6 +85,10 @@ int main(int argc, char *argv[])
 			{
 				while (getline(inFile, sLine))
 				{
+                    if(sLine == "")
+                    {
+                        continue;
+                    }
 					length = inFile.gcount();
 					line.str(sLine);
 					if (length > longestLine)
@@ -93,6 +102,10 @@ int main(int argc, char *argv[])
 					}
 					while (line >> word)
 					{
+                        if(word == "")
+                        {
+                            continue;
+                        }
 						if ((word.length()) == (unsigned)longestWord)
 						{
 							wordCount[word]++;
@@ -110,7 +123,7 @@ int main(int argc, char *argv[])
 			}
 			else
 			{
-				cout << argv[i] << " FILE NOT FOUND";
+				cout << argv[i] << " FILE NOT FOUND" << endl;
 			}
 		}
 		else
@@ -118,10 +131,10 @@ int main(int argc, char *argv[])
 			continue;
 		}
 		cout << argv[i] << ":" << endl;
-		if (cFlag)
+		if (mFlag)
 		{
-			for (map<string, int>::iterator cit = wordCount.begin();
-				cit != wordCount.end(); cit++)
+            map<string, int>::iterator cit;
+			for (cit = wordCount.begin(); cit != wordCount.end(); cit++)
 			{
 				//goes to the map index for the count of the word
 				//then adds the word to the vector at that index
@@ -131,7 +144,36 @@ int main(int argc, char *argv[])
 			map<int, vector<string>>::reverse_iterator sit = byCount.rbegin();
 			//assigns the quantity of highest occurring words to numLongestWord
 			numLongestWord = sit->first;
+            //trims the vector at that key location
+            byCount[numLongestWord].shrink_to_fit();
 			//sorts the vector at that key location
+            sort(byCount[numLongestWord].begin(), byCount[numLongestWord].end());
+            vector<string>::iterator qit = byCount[numLongestWord].begin();
+            while(qit != byCount.end()){
+                if((qit++) != byCount.end())
+                {
+                    if(cFlag)
+                    {
+                        cout << qit->first << " (" << numLongestWord << "), ";
+                    }
+                    else
+                    {
+                        cout << qit->first << ", ";
+                    }
+                }
+                else
+                {
+                    if(cFlag)
+                    {
+                        cout << qit->first << " (" numLongestWord << ")";
+                    }
+                    else
+                    {
+                        cout << qit->first;
+                    }
+                }
+                cout << endl;
+            }
 		}
 		else
 		{
