@@ -83,6 +83,8 @@ int main(int argc, char *argv[])
             if (inFile.is_open())
             {
                 longestWord = 0;
+                longestLine = 0;
+                wordCount.erase(wordCount.begin(), wordCount.end());
                 while (getline(inFile, sLine))
                 { //changes sLine
                     //if (sLine == "")
@@ -169,7 +171,7 @@ int main(int argc, char *argv[])
                 {
                     if (cFlag)
                     {
-                        cout << *qit << " (" << numLongestWord << "), ";
+                        cout << *qit << "(" << numLongestWord << "), ";
                     }
                     else
                     {
@@ -180,7 +182,7 @@ int main(int argc, char *argv[])
                 {
                     if (cFlag)
                     {
-                        cout << *qit << " (" << numLongestWord << ")";
+                        cout << *qit << "(" << numLongestWord << ")";
                     }
                     else
                     {
@@ -202,7 +204,7 @@ int main(int argc, char *argv[])
                 {
                     if(cFlag)
                     {
-                        cout << it->first << " (" << wordCount[it->first] << "), ";
+                        cout << it->first << "(" << wordCount[it->first] << "), ";
                     }
                     else
                     {
@@ -213,7 +215,7 @@ int main(int argc, char *argv[])
                 {
                     if(cFlag)
                     {
-                        cout << it->first << " (" << wordCount[it->first] << ")";
+                        cout << it->first << "(" << wordCount[it->first] << ")";
                     }
                     else
                     {
@@ -223,11 +225,14 @@ int main(int argc, char *argv[])
                 q++;
             }
         }
-        cout << endl;
+        if(!wordCount.empty())
+        {
+            cout << endl;
+        }
         cout << longestLine;
         if (cFlag)
         {
-            cout << " (" << numLongestLines << ")";
+            cout << "(" << numLongestLines << ")";
         }
         cout << endl;
     }
