@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
     string sLine = "";
     int longestLine = 0;
     int longestWord = 0;
-    int numLongestLines = 0;
+    int numLongestLines = 1;
     int numFiles = 0;
     int numLongestWord = 0;
     int length = 0;
@@ -83,6 +83,7 @@ int main(int argc, char *argv[])
             {
                 longestWord = 0;
                 longestLine = 0;
+                numLongestLines = 1;
                 wordCount.erase(wordCount.begin(), wordCount.end());
                 while (getline(inFile, sLine))
                 { //changes sLine
@@ -129,6 +130,11 @@ int main(int argc, char *argv[])
                     }
                 }
                 if (longestLine != 0 && bFlag) longestLine--; // to account for no spaces at the end of the line
+                if (longestLine == 0)
+                {
+                    longestLine = 0;
+                    numLongestLines = 1;
+                }
                 inFile.close();
             }
             else
@@ -142,7 +148,7 @@ int main(int argc, char *argv[])
             continue;
         }
         cout << argv[i] << ":" << endl;
-        if (mFlag)
+        if (mFlag && (longestLine != 0))
         {
             byCount.erase(byCount.begin(), byCount.end());
             map<string, int>::iterator cit;
