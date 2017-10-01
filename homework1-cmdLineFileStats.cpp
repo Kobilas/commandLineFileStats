@@ -22,7 +22,6 @@ int main(int argc, char *argv[])
     int numFiles = 0;
     int numLongestWord = 0;
     int length = 0;
-    int subLength = 0;
     int size = 0;
     int q = 0;
     bool mFlag = false;
@@ -87,31 +86,34 @@ int main(int argc, char *argv[])
                 wordCount.erase(wordCount.begin(), wordCount.end());
                 while (getline(inFile, sLine))
                 { //changes sLine
-                    if (sLine == "")
-                    {
-                        continue;
-                    }
-                    length = sLine.length();
                     istringstream line(sLine);
-                    if (length > longestLine)
-                    {
-                        longestLine = length;
-                        numLongestLines = 1;
+                    length = 0;
+                    if (!bFlag) {
+                        length = sLine.length();
+                        if (length > longestLine)
+                        {
+                            longestLine = length;
+                            numLongestLines = 1;
+                        }
+                        else if (length == longestLine)
+                        {
+                            numLongestLines++;
+                        }
                     }
-                    else if (length == longestLine)
-                    {
-                        numLongestLines++;
-                    }
-                    subLength = 0;
                     while (line >> word)
-                    { //tried using get() with a char[] but didnt work
-                      //line >> word doesn't work either
+                    {
                         if (bFlag)
                         {
-                            while (word.length() == 0)
+                            length += word.length();
+                            if (word.length() != 0) length++;
+                            if (length > longestLine)
                             {
-                                subLength++;
-                                continue;
+                                longestLine = length;
+                                numLongestLines = 1;
+                            }
+                            else if (length == longestLine)
+                            {
+                                numLongestLines++;
                             }
                         }
                         if (word.length() == (unsigned)longestWord)
@@ -125,12 +127,8 @@ int main(int argc, char *argv[])
                             longestWord = word.length();
                         }
                     }
-                    if (bFlag)
-                    {
-                        subLength--;
-                        longestLine -= subLength - 2;
-                    }
                 }
+                if (longestLine != 0 && bFlag) longestLine--; // to account for no spaces at the end of the line
                 inFile.close();
             }
             else
@@ -202,18 +200,18 @@ int main(int argc, char *argv[])
             {//sorted and comma-separated longest words
                 if (q < size - 1)
                 {
-                    if(cFlag)
+                    if (cFlag)
                     {
                         cout << it->first << "(" << wordCount[it->first] << "), ";
                     }
                     else
                     {
-                    cout << it->first << ", ";
+                        cout << it->first << ", ";
                     }
                 }
                 else
                 {
-                    if(cFlag)
+                    if (cFlag)
                     {
                         cout << it->first << "(" << wordCount[it->first] << ")";
                     }
@@ -225,7 +223,7 @@ int main(int argc, char *argv[])
                 q++;
             }
         }
-        if(!wordCount.empty())
+        if (!wordCount.empty())
         {
             cout << endl;
         }
