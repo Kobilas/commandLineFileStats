@@ -87,11 +87,10 @@ int main(int argc, char *argv[])
                 wordCount.erase(wordCount.begin(), wordCount.end());
                 while (getline(inFile, sLine))
                 { //changes sLine
-                    //if (sLine == "")
-                    //{
-                    //    cerr << "woops";
-                    //    continue;
-                    //}
+                    if (sLine == "")
+                    {
+                        continue;
+                    }
                     length = sLine.length();
                     istringstream line(sLine);
                     if (length > longestLine)
@@ -103,16 +102,17 @@ int main(int argc, char *argv[])
                     {
                         numLongestLines++;
                     }
+                    subLength = 0;
                     while (line >> word)
                     { //tried using get() with a char[] but didnt work
                       //line >> word doesn't work either
                         if (bFlag)
                         {
-                            //while (word.length() == 0)
-                            //{
-                            //    cerr << "woops part 2?";
-                            //        subLength++;
-                            //}
+                            while (word.length() == 0)
+                            {
+                                subLength++;
+                                continue;
+                            }
                         }
                         if (word.length() == (unsigned)longestWord)
                         {
@@ -128,7 +128,7 @@ int main(int argc, char *argv[])
                     if (bFlag)
                     {
                         subLength--;
-                        longestLine -= subLength;
+                        longestLine -= subLength - 2;
                     }
                 }
                 inFile.close();
